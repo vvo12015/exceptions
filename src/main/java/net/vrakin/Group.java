@@ -46,6 +46,11 @@ public class Group {
         throw new StudentNotFoundException();
     }
 
+    public void sortStudentsByLastName(){
+        Arrays.sort(students, Comparator.comparing(Student::getLastName));
+    }
+
+
     public boolean removeStudentById(int id){
         int index = 0;
         index = searchStudentByID(id);
@@ -91,10 +96,7 @@ public class Group {
     public String toString() {
         return "Group{" +
                 "groupName='" + groupName + '\'' +
-                ", students=" + Arrays.toString(
-                        Arrays.stream(Arrays.copyOf(students, counter))
-                        .sorted(Comparator.comparing(Human::getLastName))
-                                .toArray()) +
+                ", students=" + Arrays.toString(students) +
                 '}';
     }
 }

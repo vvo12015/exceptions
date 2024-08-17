@@ -1,7 +1,11 @@
 package net.vrakin;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.Objects;
 
+@JsonPropertyOrder({"id", "name", "lastName", "gender", "groupName"})
 public class Student extends Human {
 
     private int id;
@@ -11,6 +15,9 @@ public class Student extends Human {
         super(name, lastName, gender);
         this.id = id;
         this.groupName = groupName;
+    }
+
+    public Student() {
     }
 
     public int getId() {
