@@ -1,5 +1,8 @@
-package net.vrakin;
+package net.vrakin.group;
 
+import lombok.Getter;
+import lombok.Setter;
+import net.vrakin.Student;
 import net.vrakin.exception.GroupOverflowException;
 import net.vrakin.exception.IdExistException;
 import net.vrakin.exception.StudentNotFoundException;
@@ -7,12 +10,15 @@ import net.vrakin.exception.StudentNotFoundException;
 import java.util.Arrays;
 import java.util.Comparator;
 
+@Getter
 public class Group {
 
     public static final int MAX_ARRAY_ELEMENT = 10;
     public static final int START_ARRAY_ELEMENT = 0;
 
+    @Setter
     private String groupName;
+
     private final Student[] students = new Student[MAX_ARRAY_ELEMENT];
     private int counter;
 
@@ -78,18 +84,6 @@ public class Group {
             j++;
         }
         counter--;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
-    public Student[] getStudents() {
-        return students;
     }
 
     @Override

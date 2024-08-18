@@ -1,0 +1,11 @@
+id,name,lastName,gender,groupName
+0,name10,lastname00,FEMALE,group1
+1,name09,lastname01,FEMALE,group1
+2,name08,lastname02,MALE,group1
+3,name07,lastname03,MALE,group1
+4,name06,lastname04,MALE,group1
+5,name05,lastname05,MALE,group1
+6,name04,lastname06,FEMALE,group1
+7,name03,lastname07,MALE,group1
+8,name02,lastname08,FEMALE,group1
+9,name01,lastname09,FEMALE,group1
