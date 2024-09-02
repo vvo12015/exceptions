@@ -1,9 +1,12 @@
 package net.vrakin;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import net.vrakin.converter.CSVStringConverter;
 import net.vrakin.exception.GroupOverflowException;
+import net.vrakin.exception.StudentNotFoundException;
 import net.vrakin.group.Group;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Hello world!
@@ -14,29 +17,36 @@ public class App
     public static void main( String[] args ) throws GroupOverflowException {
         StudentReader reader = new CmdStudentReader();
 
-        Student student = reader.readStudent();
+        Student student;
 
-        CSVStringConverter converter = new CSVStringConverter();
+        Group group1 = new Group();
+        Group group2 = new Group();
+        Group group3 = new Group();
+        Group group4 = new Group();
 
-        try {
-            String strStudent = converter.toStringRepresentation(student);
-            System.out.println(strStudent);
+        List<Group> groups = new ArrayList<Group>();
+        groups.add(group1);
+        groups.add(group2);
+        groups.add(group3);
+        groups.add(group4);
 
-            Student student1 = converter.fromStringRepresentation(strStudent);
-            System.out.println(student1);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        Group group = new Group();
         for (int i = 0; i < Group.MAX_ARRAY_ELEMENT; i++) {
-            student = reader.readStudent();
-
-            group.addStudent(student);
+            student = new Student("Name" + i, "LName" + i, Gender.values()[i%2], i, "GroupName" + ((i / 3)+1));
+            groups.get((i / 3)).setGroupName("GroupName" + ((i / 3)+1));
+            groups.get((i / 3)).addStudent(student);
         }
 
-        group.sortStudentsByLastName();
+        groups.forEach(group -> {
+            group.sortStudentsByLastName();
+            System.out.println(group);
+        });
 
-        System.out.println(group);
+        groups.forEach(group -> {
+            try {
+                System.out.println(group.searchStudentByLastName("LName0"));
+            } catch (StudentNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

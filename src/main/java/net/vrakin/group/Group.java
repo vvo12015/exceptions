@@ -3,13 +3,11 @@ package net.vrakin.group;
 import lombok.Getter;
 import lombok.Setter;
 import net.vrakin.Student;
-import net.vrakin.exception.GroupOverflowException;
-import net.vrakin.exception.IdExistException;
 import net.vrakin.exception.StudentNotFoundException;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Objects;
+import java.util.List;
 
 @Getter
 public class Group {
@@ -20,79 +18,43 @@ public class Group {
     @Setter
     private String groupName;
 
-    private final Student[] students = new Student[MAX_ARRAY_ELEMENT];
-    private int counter;
+    private final List<Student> students = new ArrayList<>(MAX_ARRAY_ELEMENT);
 
     public Group() {
-        counter = START_ARRAY_ELEMENT;
     }
 
     public Group(String groupName) {
-        counter = START_ARRAY_ELEMENT;
         this.groupName = groupName;
     }
 
-    public void addStudent(Student student) throws GroupOverflowException, IdExistException {
-        if (counter == MAX_ARRAY_ELEMENT) {
-            throw new GroupOverflowException();
+    public void addStudent(Student student) {
+        if (students.size() <= MAX_ARRAY_ELEMENT) {
+            students.add(student);
         }
-
-        if (searchStudentByID(student.getId())>0)
-            throw new IdExistException();
-
-        students[counter] = student;
-        counter++;
     }
 
     public Student searchStudentByLastName(String lastName) throws StudentNotFoundException {
-        for (Student student: students){
-            if (Objects.nonNull(student) &&
-                    student.getLastName().equals(lastName)){
-                return student;
-            }
+        Student student = students.stream().filter(s -> s.getLastName().equals(lastName)).findFirst().orElse(null);
+        if (student == null) {
+            throw new StudentNotFoundException();
         }
-        throw new StudentNotFoundException();
+        return student;
     }
 
     public void sortStudentsByLastName(){
-        Arrays.sort(students, Comparator.comparing(Student::getLastName));
+        students.sort(Comparator.comparing(Student::getLastName));
     }
 
 
     public boolean removeStudentById(int id){
-        int index = 0;
-        index = searchStudentByID(id);
-        if (index == -1) return false;
-
-        removeStudentByIndex(index);
-        return true;
-    }
-
-    private int searchStudentByID(int id) {
-        for (int i = 0; i < counter; i++) {
-            if (students[i].getId() == id){
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private void removeStudentByIndex(int index){
-        int j = 0;
-        for (int i = 0; i < counter; i++) {
-            if (i == index) j++;
-            if (j == MAX_ARRAY_ELEMENT) students[i] = null;
-            else students[i] = students[j];
-            j++;
-        }
-        counter--;
+        return students.removeIf(s -> s.getId() == id);
     }
 
     @Override
     public String toString() {
         return "Group{" +
                 "groupName='" + groupName + '\'' +
-                ", students=" + Arrays.toString(students) +
+                ", students=" + students.toString() +
                 '}';
     }
 }

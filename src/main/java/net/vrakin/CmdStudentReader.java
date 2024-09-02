@@ -33,6 +33,7 @@ public class CmdStudentReader implements StudentReader {
         System.out.println("Enter student groupName: ");
         student.setGroupName(sc.nextLine());
 
+
         sc.close();
         return student;
     }
