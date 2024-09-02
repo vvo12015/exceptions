@@ -9,6 +9,7 @@ import net.vrakin.exception.StudentNotFoundException;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Objects;
 
 @Getter
 public class Group {
@@ -45,7 +46,8 @@ public class Group {
 
     public Student searchStudentByLastName(String lastName) throws StudentNotFoundException {
         for (Student student: students){
-            if (student.getLastName().equals(lastName)){
+            if (Objects.nonNull(student) &&
+                    student.getLastName().equals(lastName)){
                 return student;
             }
         }
